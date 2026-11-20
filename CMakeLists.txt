@@ -4,15 +4,33 @@ project(project_1 VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Quick)
+find_package(Qt6 REQUIRED COMPONENTS Quick Gui Qml ShaderTools)
+find_package(Qt6 COMPONENTS GuiPrivate QUIET)
+
+# Vulkan SDK (в ./tools или через переменную окружения VULKAN_SDK)
+if(NOT DEFINED ENV{VULKAN_SDK})
+    file(GLOB _vulkan_sdk_candidates "${CMAKE_CURRENT_SOURCE_DIR}/../tools/vulkan-*/*")
+    foreach(_vk IN LISTS _vulkan_sdk_candidates)
+        if(EXISTS "${_vk}/include/vulkan/vulkan.h")
+            set(ENV{VULKAN_SDK} "${_vk}")
+            list(APPEND CMAKE_PREFIX_PATH "${_vk}")
+            list(APPEND CMAKE_LIBRARY_PATH "${_vk}/lib" "${_vk}/lib/VulkanLoader/lib")
+            break()
+        endif()
+    endforeach()
+endif()
+find_package(Vulkan REQUIRED)
 
 qt_standard_project_setup(REQUIRES 6.8)
 
 qt_add_executable(appproject_1
     main.cpp
-    Constants/Spaces.qml
-    qml/Pages/savesPage/LeftMenuButton.qml
-
+    src/graphics/vulkan/VulkanItem.cpp
+    src/graphics/camera/Camera.cpp
+    src/controls/CameraController.cpp
+    src/controls/keyboard/KeyboardInput.cpp
+    src/controls/mouse/MouseInput.cpp
+    src/graphics/vulkan/VulkanWindow.cpp
 )
 
 qt_add_resources(appproject_1 "app"
@@ -40,6 +58,8 @@ qt_add_resources(appproject_1 "app"
 
         qml/Pages/optionsPage/OptionsPage.qml
 
+        qml/Interphase/gameMenu/gameMenu.qml
+
 
 
 )
@@ -56,8 +76,22 @@ set_target_properties(appproject_1 PROPERTIES
 )
 
 target_link_libraries(appproject_1
-    PRIVATE Qt6::Quick
+    PRIVATE Qt6::Quick Qt6::Gui Qt6::Qml Qt6::ShaderTools Vulkan::Vulkan
 )
+
+if(TARGET Qt6::GuiPrivate)
+    target_link_libraries(appproject_1 PRIVATE Qt6::GuiPrivate)
+endif()
+
+qt_add_shaders(appproject_1 "vulkan_shaders"
+    PREFIX "/shaders"
+    BASE "src/graphics/vulkan/shaders"
+    FILES
+        src/graphics/vulkan/shaders/texture.vert
+        src/graphics/vulkan/shaders/texture.frag
+)
+
+target_include_directories(appproject_1 PRIVATE src)
 
 include(GNUInstallDirs)
 install(TARGETS appproject_1

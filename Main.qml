@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import App.Vulkan 1.0
 import "qml/WindowComponents"
 import "qml/Pages/generalPage"
 import "Constants"
@@ -10,6 +11,8 @@ Rectangle {
     height: 480
     color: Colors.rootWindowColor
 
+    property bool gameActive: false
+
     readonly property int cornerRadius: 10
     readonly property bool windowDecorated: Window.window ? Window.window.visibility
                                                             !== Window.FullScreen
@@ -18,8 +21,50 @@ Rectangle {
 
     radius: windowDecorated ? cornerRadius : 0
 
-    layer.enabled: true
-    layer.samples: 8
+    layer.enabled: false
+    layer.samples: 0
+
+    function pushPage(url) {
+        var props = {}
+        if (url.indexOf("savesPage/SavesPage.qml") !== -1)
+            props.onCreateWorld = rootWindow.openVkWorld
+        stackView.push(url, props)
+    }
+
+    function openVkWorld() {
+        stackView.clear()
+        gameActive = true
+        Qt.callLater(function() {
+            vkItem.setMouseCaptured(true)
+            vkItem.forceActiveFocus()
+        })
+    }
+
+    function showGameMenu() {
+        if (gameActive && stackView.depth === 0) {
+            vkItem.setMouseCaptured(false)
+            var menu = stackView.push("qrc:/qml/Interphase/gameMenu/gameMenu.qml", { onExitToMain: rootWindow.exitToMainMenu }, StackView.Immediate)
+            if (menu)
+                menu.forceActiveFocus()
+        }
+    }
+
+    function resumeGame() {
+        if (gameActive) {
+            stackView.clear()
+            Qt.callLater(function() {
+                vkItem.setMouseCaptured(true)
+                vkItem.forceActiveFocus()
+            })
+        }
+    }
+
+    function exitToMainMenu() {
+        vkItem.setMouseCaptured(false)
+        gameActive = false
+        stackView.clear()
+        stackView.push(Qt.resolvedUrl("qrc:/qml/Pages/generalPage/GeneralPage.qml"), { requestNavigationHandler: rootWindow.pushPage })
+    }
 
     TopWindowToolbar {
         id: topWindowToolbar
@@ -35,21 +80,47 @@ Rectangle {
         visible: windowDecorated
     }
 
-    StackView {
-            id: stackView
-            anchors {
-                top: topWindowToolbar.bottom
-                left: parent.left
-                right: parent.right
-                bottom: parent.bottom
-            }
+    Rectangle {
+        id: vkHost
+        visible: gameActive
+        z: 0
+        color: "#0d0d14"
+        focus: gameActive
 
-            initialItem: GeneralPage {
-                onRequestNavigation: (url) => {
-                    stackView.push(url)
-                }
-            }
+        anchors {
+            top: topWindowToolbar.bottom
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
         }
+
+        VulkanItem {
+            id: vkItem
+            anchors.fill: parent
+        }
+
+        Keys.onEscapePressed: function(event) {
+            rootWindow.showGameMenu()
+            event.accepted = true
+        }
+    }
+
+    StackView {
+        id: stackView
+        z: 10
+        anchors {
+            top: topWindowToolbar.bottom
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
+
+        initialItem: GeneralPage {
+            onRequestNavigation: (url) => rootWindow.pushPage(url)
+        }
+    }
+
+
 
     SequentialAnimation {
         id: hideToolbar
@@ -115,6 +186,13 @@ Rectangle {
                 script: topWindowToolbar.showButtons()
             }
         }
+    }
+
+    Shortcut {
+        sequence: "Escape"
+        context: Qt.WindowShortcut
+        enabled: gameActive && stackView.depth === 0
+        onActivated: rootWindow.showGameMenu()
     }
 
     Shortcut {

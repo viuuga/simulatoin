@@ -6,6 +6,14 @@ Item {
     id: generalPage
 
     signal requestNavigation(string pageUrl)
+    property var requestNavigationHandler: null
+
+    function navigate(url) {
+        if (requestNavigationHandler)
+            requestNavigationHandler(url)
+        else
+            requestNavigation(url)
+    }
 
     Column {
         anchors {
@@ -21,13 +29,13 @@ Item {
         PagesButtons {
             id: btnSaves
             text: "Сохранения"
-            onClicked: generalPage.requestNavigation("qml/Pages/savesPage/SavesPage.qml")
+            onClicked: generalPage.navigate("qrc:/qml/Pages/savesPage/SavesPage.qml")
         }
 
         PagesButtons {
             id: btnOptions
             text: "Настройки"
-            onClicked: generalPage.requestNavigation("qml/Pages/optionsPage/OptionsPage.qml")
+            onClicked: generalPage.navigate("qrc:/qml/Pages/optionsPage/OptionsPage.qml")
         }
 
         PagesButtons {

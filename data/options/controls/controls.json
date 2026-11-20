@@ -1,0 +1,31 @@
+{
+  "actions": {
+    "move_forward": {
+      "keys": ["W"],
+      "scanCodes": [25, 17]
+    },
+    "move_back": {
+      "keys": ["S"],
+      "scanCodes": [39, 31]
+    },
+    "move_left": {
+      "keys": ["A"],
+      "scanCodes": [38, 30]
+    },
+    "move_right": {
+      "keys": ["D"],
+      "scanCodes": [40, 32]
+    },
+    "move_up": {
+      "keys": ["Space"],
+      "scanCodes": [65, 57]
+    },
+    "move_down": {
+      "keys": ["C"],
+      "scanCodes": [54, 46]
+    }
+  },
+  "mouse": {
+    "sensitivity": 0.0025
+  }
+}

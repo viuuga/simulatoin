@@ -10,6 +10,7 @@ Item {
 
     property var onBack: null
     property var onPushPage: null
+    property var onCreateWorld: null
 
 
     Component.onCompleted: {
@@ -65,6 +66,7 @@ Item {
                     left: parent.left
                     right: parent.right
                 }
+                onClicked: if (onCreateWorld) onCreateWorld()
             }
 
             LeftMenuButton {
@@ -108,7 +110,7 @@ Item {
                     left: parent.left
                     right: parent.right
                 }
-                onClicked: console.log("Создать мир - затычка")
+                onClicked: if (onCreateWorld) onCreateWorld()
             }
         }
 
