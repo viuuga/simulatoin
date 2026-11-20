@@ -11,6 +11,7 @@ qt_standard_project_setup(REQUIRES 6.8)
 qt_add_executable(appproject_1
     main.cpp
     Constants/Spaces.qml
+    qml/Pages/savesPage/LeftMenuButton.qml
 
 )
 
@@ -31,10 +32,14 @@ qt_add_resources(appproject_1 "app"
         qml/WindowComponents/WindowResizebleItem.qml
         qml/CommonElements/ButtonToolbarWindow.qml
 
-        qml/Pages/GeneralPage.qml
-        qml/Pages/SavesPage.qml
-        qml/Pages/OptionsPage.qml
-        qml/Pages/PagesButtons.qml
+        qml/Pages/generalPage/GeneralPage.qml
+        qml/Pages/generalPage/PagesButtons.qml
+
+        qml/Pages/savesPage/SavesPage.qml
+        qml/Pages/savesPage/LeftMenuButton.qml
+
+        qml/Pages/optionsPage/OptionsPage.qml
+
 
 
 )

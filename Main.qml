@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import "qml/WindowComponents"
+import "qml/Pages/generalPage"
 import "Constants"
 
 Rectangle {
@@ -35,15 +36,20 @@ Rectangle {
     }
 
     StackView {
-        id: stackView
-        anchors {
-            top: topWindowToolbar.bottom
-            left: parent.left
-            right: parent.right
-            bottom: parent.bottom
+            id: stackView
+            anchors {
+                top: topWindowToolbar.bottom
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+            }
+
+            initialItem: GeneralPage {
+                onRequestNavigation: (url) => {
+                    stackView.push(url)
+                }
+            }
         }
-        initialItem: "qml/Pages/GeneralPage.qml"
-    }
 
     SequentialAnimation {
         id: hideToolbar

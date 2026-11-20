@@ -1,5 +1,5 @@
 import QtQuick
-import "../../Constants"
+import "../../../Constants"
 
 
 Item{

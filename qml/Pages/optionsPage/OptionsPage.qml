@@ -1,8 +1,18 @@
 import QtQuick
-import "../../Constants"
+import "../../../Constants"
 
 Item {
     id: optionsPage
+
+    property var stackView: null
+
+    Component.onCompleted: {
+        var p = parent;
+        while (p && typeof p.push !== 'function') {
+            p = p.parent;
+        }
+        stackView = p;
+    }
 
     Text {
         text: "Настройки"
@@ -25,6 +35,6 @@ Item {
     MouseArea {
         id: backArea
         anchors.fill: parent
-        onClicked: StackView.view.pop()
+        onClicked: stackView ? stackView.pop() : console.log("stackView is null")
     }
 }

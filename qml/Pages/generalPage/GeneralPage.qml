@@ -1,8 +1,11 @@
 import QtQuick
-import "../../Constants"
+import QtQuick.Controls
+import "../../../Constants"
 
 Item {
     id: generalPage
+
+    signal requestNavigation(string pageUrl)
 
     Column {
         anchors {
@@ -18,20 +21,20 @@ Item {
         PagesButtons {
             id: btnSaves
             text: "Сохранения"
-            onClicked: StackView.view.push("qml/Pages/SavesPage.qml")
+            onClicked: generalPage.requestNavigation("qml/Pages/savesPage/SavesPage.qml")
         }
 
         PagesButtons {
             id: btnOptions
             text: "Настройки"
-            onClicked: StackView.view.push("qml/Pages/OptionsPage.qml")
+            onClicked: generalPage.requestNavigation("qml/Pages/optionsPage/OptionsPage.qml")
         }
 
         PagesButtons {
             id: btnNetwork
             text: "Сеть"
             onClicked: {
-                // пустышка - сеть в разработке
+                // пустышка
             }
         }
     }
