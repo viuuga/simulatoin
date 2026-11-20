@@ -31,7 +31,6 @@ qt_add_executable(appproject_1
     src/controls/keyboard/KeyboardInput.cpp
     src/controls/mouse/MouseInput.cpp
     src/graphics/vulkan/VulkanWindow.cpp
-    qml/Pages/optionsPage/OptionsPageButton.qml
 )
 
 qt_add_resources(appproject_1 "app"
@@ -57,7 +56,10 @@ qt_add_resources(appproject_1 "app"
         qml/Pages/savesPage/SavesPage.qml
         qml/Pages/savesPage/LeftMenuButton.qml
 
-        qml/Pages/optionsPage/OptionsPage.qml
+        qml/Pages/settingsPage/SettingsPage.qml
+        qml/Pages/settingsPage/SettingsCategoryButton.qml
+        qml/Pages/settingsPage/SettingsPanel.qml
+        qml/Pages/settingsPage/CategoryContent.qml
 
         qml/Interphase/gameMenu/gameMenu.qml
 

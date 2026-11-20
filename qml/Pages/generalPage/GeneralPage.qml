@@ -35,7 +35,7 @@ Item {
         PagesButtons {
             id: btnOptions
             text: "Настройки"
-            onClicked: generalPage.navigate("qrc:/qml/Pages/optionsPage/OptionsPage.qml")
+            onClicked: generalPage.navigate("qrc:/qml/Pages/settingsPage/SettingsPage.qml")
         }
 
         PagesButtons {
