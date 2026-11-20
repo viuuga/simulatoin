@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 import "qml/WindowComponents"
 import "Constants"
 
@@ -31,6 +32,17 @@ Rectangle {
 
     WindowResizebleItem {
         visible: windowDecorated
+    }
+
+    StackView {
+        id: stackView
+        anchors {
+            top: topWindowToolbar.bottom
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
+        initialItem: "qml/Pages/GeneralPage.qml"
     }
 
     SequentialAnimation {

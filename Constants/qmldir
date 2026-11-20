@@ -2,3 +2,4 @@ singleton Colors Colors.qml
 singleton ButtonToolbarWindowActions ButtonToolbarWindowActions.qml
 singleton SizeConsts SizeConsts.qml
 singleton StringConsts StringConsts.qml
+singleton Spaces Spaces.qml
