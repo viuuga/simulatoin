@@ -31,6 +31,7 @@ qt_add_executable(appproject_1
     src/controls/keyboard/KeyboardInput.cpp
     src/controls/mouse/MouseInput.cpp
     src/graphics/vulkan/VulkanWindow.cpp
+    qml/Pages/optionsPage/OptionsPageButton.qml
 )
 
 qt_add_resources(appproject_1 "app"
