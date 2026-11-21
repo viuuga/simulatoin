@@ -34,44 +34,11 @@ Rectangle {
         anchors.topMargin: 20
         anchors.bottomMargin: 20
         clip: true
-        contentWidth: width
-        contentHeight: contentColumn.implicitHeight
         interactive: panel.activeCategory !== null
 
         ScrollBar.vertical: ScrollBar {
             width: 8
             policy: ScrollBar.AsNeeded
-        }
-
-        Column {
-            id: contentColumn
-            width: parent.width
-            spacing: 8
-
-            CategoryContent {
-                width: parent.width
-                category: "controls"
-                activeCategory: panel.activeCategory
-                store: panel.store
-            }
-            CategoryContent {
-                width: parent.width
-                category: "graphics"
-                activeCategory: panel.activeCategory
-                store: panel.store
-            }
-            CategoryContent {
-                width: parent.width
-                category: "display"
-                activeCategory: panel.activeCategory
-                store: panel.store
-            }
-            CategoryContent {
-                width: parent.width
-                category: "interface"
-                activeCategory: panel.activeCategory
-                store: panel.store
-            }
         }
     }
 }

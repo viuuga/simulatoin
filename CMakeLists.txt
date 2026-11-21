@@ -59,7 +59,6 @@ qt_add_resources(appproject_1 "app"
         qml/Pages/settingsPage/SettingsPage.qml
         qml/Pages/settingsPage/SettingsCategoryButton.qml
         qml/Pages/settingsPage/SettingsPanel.qml
-        qml/Pages/settingsPage/CategoryContent.qml
 
         qml/Interphase/gameMenu/gameMenu.qml
 
